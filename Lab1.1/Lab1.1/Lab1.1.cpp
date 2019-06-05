@@ -1,10 +1,10 @@
-// Lab1.1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+//Jackson Randolph
 
-#include "pch.h"
 #include <iostream>
+
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+    cout << "Hey Y'all\n"; 
 }
