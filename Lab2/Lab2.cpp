@@ -12,6 +12,10 @@ templ DynList<T>::DynList()
 {
     this->Length = 50;
     this->dynArr = new T*[Length];
+    for(int i = 0; i < Length; i++)
+    {
+        this->dynArr[i] = NULL;
+    }
 }
 
 templ DynList<T>::~DynList()
@@ -46,12 +50,14 @@ templ void DynList<T>::Push(T* obj)
 {
     for(int i = 0; i < Length; i++)
     {
-        if(this->dynArr == NULL)
+        if(this->dynArr[i] == NULL)
         {
             this->dynArr[i] = obj;
+            std::cout << "Object inserted at " << i << '\n';
             return;
         }
     }
+    std::cout << "Array full, expanding\n";
     this->Expand();
     this->dynArr[Length] = obj;
 }
@@ -61,15 +67,18 @@ templ void DynList<T>::Expand()
     int newLength = Length + 25;
     T** newArr = new T*[newLength];
     std::copy(dynArr, dynArr+Length, newArr);
+    for(int i = Length; i < newLength; i++)
+    {
+        this->dynArr[i] = NULL;
+    }
+    Length = newLength;
 }
 
-Proc::Proc(std::vector<Proc*>& ProcList)
+Proc::Proc()
 {
     //Initialize Values
     this->ProcID = (int)this;
     this->PriorityNumber = this->ProcID;
-    this->Enlist(ProcList);
-    
 }
 
 Proc::~Proc()
@@ -77,15 +86,24 @@ Proc::~Proc()
     std::cout << "Proc: " << this->ProcID << " deconstructed!" << std::endl;
 }
 
-void Proc::Enlist(std::vector<Proc*>& ProcList)
+void Proc::Enlist(DynList<Proc>& ProcList)
 {
-    ProcList.push_back(this);
+    ProcList.Push(this);
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
 }
 
-void Proc::Delist(std::vector<Proc*>& ProcList)
+void Proc::Delist(DynList<Proc>& ProcList)
 {
-    std::cout << "Proc " << this->ProcID << " not found." << std::endl;
+    for(int i = 0; i < ProcList.GetLength(); i++)
+    {
+        if(ProcList.GetElement(i) == this)
+        {
+            ProcList.SetElement(NULL, i);
+            std::cout << "Proc " << this->ProcID << " found in position " << i << " and deleted\n";
+            return;
+        }
+    }
+    std::cout << "Proc " << this->ProcID << " not found.\n";
     return;
 }
 
@@ -108,8 +126,8 @@ double Proc::Waiting_Time()
 
 int main()
 {
-    std::vector<Proc*> ProcList = std::vector<Proc*>();
-    Proc* test = new Proc(ProcList);
+    DynList<Proc> ProcList = DynList<Proc>();
+    Proc* test = new Proc();
     test->Enlist(ProcList);
     test->Delist(ProcList);
     test->Reset_Priority();

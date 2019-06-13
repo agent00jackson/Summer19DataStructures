@@ -1,23 +1,5 @@
 #include <vector>
 
-class Proc
-{
-    public:
-        int ProcID;
-        int PriorityNumber;
-        double ArrivalTime;
-        double ServiceTime;
-        void Enlist(std::vector<Proc*>&);
-        void Delist(std::vector<Proc*>&);
-        void Reset_Priority();
-        double Waiting_Time();
-        double Time_In_System();
-        Proc(std::vector<Proc*>&);
-        ~Proc();
-    private:
-        int QueueSize;
-};
-
 template <class T>
 class DynList
 {
@@ -32,4 +14,22 @@ class DynList
         void Push(T*);
         DynList();
         ~DynList();
+};
+
+class Proc
+{
+    public:
+        int ProcID;
+        int PriorityNumber;
+        double ArrivalTime;
+        double ServiceTime;
+        void Enlist(DynList<Proc>&);
+        void Delist(DynList<Proc>&);
+        void Reset_Priority();
+        double Waiting_Time();
+        double Time_In_System();
+        Proc();
+        ~Proc();
+    private:
+        int QueueSize;
 };
