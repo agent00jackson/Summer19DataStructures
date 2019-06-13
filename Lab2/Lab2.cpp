@@ -133,5 +133,6 @@ int main()
     test->Reset_Priority();
     test->Waiting_Time();
     test->Time_In_System();
+    delete test;
     return EXIT_SUCCESS;
 }
