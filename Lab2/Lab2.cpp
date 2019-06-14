@@ -67,6 +67,8 @@ templ void DynList<T>::Expand()
     int newLength = Length + 25;
     T** newArr = new T*[newLength];
     std::copy(dynArr, dynArr+Length, newArr);
+    delete[] dynArr;
+    dynArr = newArr;
     for(int i = Length; i < newLength; i++)
     {
         this->dynArr[i] = NULL;
