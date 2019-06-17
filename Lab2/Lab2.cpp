@@ -1,10 +1,8 @@
 #include "Lab2.h"
 #include <iostream>
-#include <vector>
-#include <cstdlib> 
-#include <ctime>
-#include <iterator>
+#include <cstdlib>
 #include <algorithm>
+#include <chrono>
 
 #define templ template<class T>
 
@@ -81,6 +79,8 @@ Proc::Proc()
     //Initialize Values
     this->ProcID = (int)this;
     this->PriorityNumber = this->ProcID;
+    this->ArrivalTime = std::chrono::system_clock::now();
+    
 }
 
 Proc::~Proc()
@@ -116,8 +116,9 @@ void Proc::Reset_Priority()
 
 double Proc::Time_In_System()
 {
-    std::cout << "Proc: " << this->ProcID << " has been in the system for x milliseconds" << std::endl;
-    return this->ArrivalTime;
+    std::chrono::duration<double, std::milli> delta = std::chrono::system_clock::now() - (this->ArrivalTime);
+    std::cout << "Proc: " << this->ProcID << " has been in the system for " << delta.count() << "ms" << std::endl;
+    return delta.count();
 }
 
 double Proc::Waiting_Time()

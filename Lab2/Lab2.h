@@ -1,4 +1,28 @@
-#include <vector>
+#include <chrono>
+typedef std::chrono::high_resolution_clock::time_point TimeVar;
+
+template<class T>
+class LinkedList
+{
+    private:
+        class Node
+        {
+            public:
+                Node* Next;
+                T* Data
+        };
+        int size;
+        int curPos;
+        Node* curNode;
+        Node* head;
+    public:
+        Node* GetAt(int);
+        Node* GetHead();
+        int GetSize();
+        void InsertAt(T*, int);
+        LinkedList();
+        ~LinkedList();
+};
 
 template <class T>
 class DynList
@@ -21,7 +45,7 @@ class Proc
     public:
         int ProcID;
         int PriorityNumber;
-        double ArrivalTime;
+        TimeVar ArrivalTime;
         double ServiceTime;
         void Enlist(DynList<Proc>&);
         void Delist(DynList<Proc>&);
