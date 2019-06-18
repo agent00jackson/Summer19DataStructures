@@ -18,19 +18,27 @@ Proc::~Proc()
     std::cout << "Proc: " << this->ProcID << " deconstructed!" << std::endl;
 }
 
-void Proc::Enlist(DynList<Proc>& ProcList)
+void Proc::Enlist(LinkedList<Proc>& ProcList)
 {
-    ProcList.Push(this);
+    ProcList.SetAt(this, ProcList.GetSize());
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
 }
 
-void Proc::Delist(DynList<Proc>& ProcList)
+void Proc::Enlist(LinkedList<Proc>& ProcList)
 {
-    for(int i = 0; i < ProcList.GetLength(); i++)
+
+}
+
+void Proc::Delist(LinkedList<Proc>& ProcList)
+{
+    LinkedList<Proc>::Node* prevNode = NULL;
+    for(int i = 0; i < ProcList.GetSize(); i++)
     {
-        if(ProcList.GetElement(i) == this)
+        LinkedList<Proc>::Node* curNode = ProcList.GetNodeAt(i);
+        if(curNode->Data == this)
         {
-            ProcList.SetElement(NULL, i);
+            
+            prevNode->Next = curNode->Next;
             std::cout << "Proc " << this->ProcID << " found in position " << i << " and deleted\n";
             return;
         }
@@ -59,7 +67,7 @@ double Proc::Waiting_Time()
 
 int main()
 {
-    DynList<Proc> ProcList = DynList<Proc>();
+    LinkedList<Proc> ProcList = LinkedList<Proc>();
     Proc* test = new Proc();
     test->Enlist(ProcList);
     test->Delist(ProcList);
