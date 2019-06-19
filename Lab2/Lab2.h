@@ -1,5 +1,8 @@
+#ifndef LAB2_H
+#define LAB2_H
+
 #include <chrono>
-#include "LinkedList.cpp"
+#include "LinkedList.h"
 
 typedef std::chrono::high_resolution_clock::time_point TimeVar;
 
@@ -20,3 +23,5 @@ class Proc
     private:
         int QueueSize;
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef LINKEDLIST_IMPL_H
+#define LINKEDLIST_IMPL_H
+
 #include "LinkedList.h"
 #include <iostream>
 
@@ -9,7 +12,6 @@ templ LinkedList<T>::LinkedList()
     this->curPos = -1;
     this->curNode = NULL;
     this->head = NULL;
-    this->tail = NULL;
 }
 
 #define nodeptr typename LinkedList<T>::Node*
@@ -25,7 +27,7 @@ templ nodeptr LinkedList<T>::GetNodeAt(int pos)
     {
         throw "Out of bounds!";
     }
-    else if(curPos == 0)
+    else if(pos == 0)
     {
         return head;
     }
@@ -33,7 +35,7 @@ templ nodeptr LinkedList<T>::GetNodeAt(int pos)
     {
         curNode = head;
         curPos = 0;
-        return this->GetAt(pos);
+        return this->GetNodeAt(pos);
     }
     else if(pos > curPos)
     {
@@ -58,22 +60,61 @@ templ int LinkedList<T>::GetSize()
 
 templ void LinkedList<T>::SetAt(T* obj, int pos)
 {
+
     Node* toInsert = new Node(obj);
     if(pos == 0)
     {
         toInsert->Next = head;
         this->head = toInsert;
+        curPos = 0;
+        curNode = head;
     }
     else if(pos == size)
     {
-        this->GetAt(pos - 1)->Next = toInsert;
+        this->GetNodeAt(pos - 1)->Next = toInsert;
     }
     else
     {
-        Node* next = this->GetAt(pos - 1)->Next;
-        this->GetAt(pos - 1)->Next = toInsert;
+        Node* next = this->GetNodeAt(pos - 1)->Next;
+        this->GetNodeAt(pos - 1)->Next = toInsert;
         toInsert->Next = next;
     }
+    size++;
+}
+
+templ void LinkedList<T>::RemoveItem(T* obj)
+{
+    Node* lastNode = NULL;
+    for(int i = 0; i < this->size; i++)
+    {
+        Node* n = this->GetNodeAt(i);
+        if(n->Data == obj)
+        {
+
+            if(i == 0)
+            {
+                head = n->Next;
+                this->size--;
+                return;
+            }
+            else if(i < size-1)
+            {
+                lastNode->Next = n->Next;
+                this->size--;
+                return;
+            }
+            else
+            {   
+                lastNode->Next == NULL;
+                this->size--;
+                return;
+            }
+        }
+
+        lastNode = n;
+    }
+    std::cout <<"OBJ NOT FOUND\n";
+    throw "OBJ NOT FOUND";
 }
 
 templ LinkedList<T>::~LinkedList()
@@ -81,8 +122,16 @@ templ LinkedList<T>::~LinkedList()
     delete head;
 }
 
+templ LinkedList<T>::Node::Node(T* obj)
+{
+    this->Next = NULL;
+    this->Data = obj;
+}
+
 templ LinkedList<T>::Node::~Node()
 {
     if(Next != NULL)
         delete Next;
 }
+
+#endif

@@ -1,8 +1,8 @@
-#include "ListType.h"
-#include "Proc.h"
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
 template<typename T>
-class LinkedList : public ListType<T>
+class LinkedList
 {
     public:
         class Node
@@ -18,6 +18,7 @@ class LinkedList : public ListType<T>
         T* GetElement(int);
         int GetSize();
         void SetAt(T*, int);
+        void RemoveItem(T*);
         LinkedList();
         ~LinkedList();
     private:
@@ -26,3 +27,7 @@ class LinkedList : public ListType<T>
         Node* curNode;
         Node* head;
 };
+
+#include "LinkedList_Impl.h"
+
+#endif

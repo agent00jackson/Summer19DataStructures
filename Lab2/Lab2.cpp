@@ -24,26 +24,10 @@ void Proc::Enlist(LinkedList<Proc>& ProcList)
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
 }
 
-void Proc::Enlist(LinkedList<Proc>& ProcList)
-{
-
-}
-
 void Proc::Delist(LinkedList<Proc>& ProcList)
 {
-    LinkedList<Proc>::Node* prevNode = NULL;
-    for(int i = 0; i < ProcList.GetSize(); i++)
-    {
-        LinkedList<Proc>::Node* curNode = ProcList.GetNodeAt(i);
-        if(curNode->Data == this)
-        {
-            
-            prevNode->Next = curNode->Next;
-            std::cout << "Proc " << this->ProcID << " found in position " << i << " and deleted\n";
-            return;
-        }
-    }
-    std::cout << "Proc " << this->ProcID << " not found.\n";
+    ProcList.RemoveItem(this);
+    std::cout << "Proc: " << this->ProcID << " delisted." << std::endl;
     return;
 }
 
@@ -67,13 +51,24 @@ double Proc::Waiting_Time()
 
 int main()
 {
-    LinkedList<Proc> ProcList = LinkedList<Proc>();
-    Proc* test = new Proc();
-    test->Enlist(ProcList);
-    test->Delist(ProcList);
-    test->Reset_Priority();
-    test->Waiting_Time();
-    test->Time_In_System();
-    delete test;
+    LinkedList<Proc> ProcList = LinkedList<Proc>(); 
+    for(int i = 0; i < 10; i++)
+    {
+        Proc* test = new Proc();
+
+        test->Enlist(ProcList);
+
+        //test->Reset_Priority();
+        //test->Waiting_Time();
+        
+    }
+
+    for(int i = 0; ProcList.GetSize() > 0; i++)
+    {
+        Proc* p = ProcList.GetElement(0);
+        p->Delist(ProcList);
+        p->Time_In_System();
+        delete p;
+    }
     return EXIT_SUCCESS;
 }
