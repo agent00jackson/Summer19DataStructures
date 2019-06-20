@@ -12,7 +12,7 @@ class Proc
         int ProcID;
         int PriorityNumber;
         TimeVar ArrivalTime;
-        double ServiceTime;
+        TimeVar ServiceTime;
         void Enlist(LinkedList<Proc>&);
         void Delist(LinkedList<Proc>&);
         void Reset_Priority();

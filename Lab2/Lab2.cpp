@@ -10,7 +10,7 @@ Proc::Proc()
     this->ProcID = (int)this;
     this->PriorityNumber = this->ProcID;
     this->ArrivalTime = std::chrono::system_clock::now();
-    
+    this->ServiceTime = this->ArrivalTime;
 }
 
 Proc::~Proc()
@@ -33,6 +33,7 @@ void Proc::Delist(LinkedList<Proc>& ProcList)
 
 void Proc::Reset_Priority()
 {
+    this->PriorityNumber = 0;
     std::cout << "Proc: " << this->ProcID << " priority has been reset." << std::endl;
 }
 
@@ -45,8 +46,9 @@ double Proc::Time_In_System()
 
 double Proc::Waiting_Time()
 {
-    std::cout << "Proc: " << this->ProcID << " has been waiting for x milliseconds" << std::endl;
-    return this->ServiceTime;
+    std::chrono::duration<double, std::milli> delta = std::chrono::system_clock::now() - (this->ServiceTime);
+    std::cout << "Proc: " << this->ProcID << " has been waiting for " << delta.count() << " milliseconds" << std::endl;
+    return delta.count();   
 }
 
 int main()
