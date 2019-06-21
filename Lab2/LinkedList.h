@@ -1,7 +1,7 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-template<typename T>
+template<class T>
 class LinkedList
 {
     public:

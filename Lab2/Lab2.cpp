@@ -3,12 +3,17 @@
 #include <cstdlib>
 #include <algorithm>
 #include <chrono>
+#include <random>
 
 Proc::Proc()
 {
+    std::random_device rd; 
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(0,1000); 
+
     //Initialize Values
-    this->ProcID = (int)this;
-    this->PriorityNumber = this->ProcID;
+    this->ProcID = uni(rng);
+    this->PriorityNumber = uni(rng);
     this->ArrivalTime = std::chrono::system_clock::now();
     this->ServiceTime = this->ArrivalTime;
 }
@@ -48,7 +53,7 @@ double Proc::Waiting_Time()
 {
     std::chrono::duration<double, std::milli> delta = std::chrono::system_clock::now() - (this->ServiceTime);
     std::cout << "Proc: " << this->ProcID << " has been waiting for " << delta.count() << " milliseconds" << std::endl;
-    return delta.count();   
+    return delta.count();
 }
 
 int main()
