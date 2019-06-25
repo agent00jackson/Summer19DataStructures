@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include "LinkedList.h"
+#include "Queue.h"
 
 typedef std::chrono::high_resolution_clock::time_point TimeVar;
 

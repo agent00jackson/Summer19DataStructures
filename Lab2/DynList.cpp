@@ -48,11 +48,9 @@ templ void DynList<T>::Push(T* obj)
         if(this->dynArr[i] == NULL)
         {
             this->dynArr[i] = obj;
-            std::cout << "Object inserted at " << i << '\n';
             return;
         }
     }
-    std::cout << "Array full, expanding\n";
     this->Expand();
     this->dynArr[Length] = obj;
 }

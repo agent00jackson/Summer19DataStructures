@@ -4,8 +4,8 @@ class DynList
     private:
         T** dynArr;
         int Length;
-        void Expand();
     public:
+        void Expand();
         int GetLength();
         T* GetElement(int);
         void SetElement(T*, int);
