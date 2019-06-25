@@ -23,16 +23,16 @@ Proc::~Proc()
     std::cout << "Proc: " << this->ProcID << " deconstructed!" << std::endl;
 }
 
-void Proc::Enlist(LinkedList<Proc>& ProcList)
+void Proc::Enlist(Queue<Proc>& ProcList)
 {
-    ProcList.SetAt(this, ProcList.GetSize());
+    ProcList.Push(this);
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
 }
 
-void Proc::Delist(LinkedList<Proc>& ProcList)
+void Proc::Delist(Queue<Proc>& ProcList)
 {
-    ProcList.RemoveItem(this);
-    std::cout << "Proc: " << this->ProcID << " delisted." << std::endl;
+    //ProcList.Pop(this);
+    //std::cout << "Proc: " << this->ProcID << " delisted." << std::endl;
     return;
 }
 
@@ -56,9 +56,23 @@ double Proc::Waiting_Time()
     return delta.count();
 }
 
+double Scheduler(Queue<Proc>& ProcList)
+{
+    double totalWait = 0;
+    int count = 0;
+    while(ProcList.GetCurrentSize() > 0)
+    {
+        Proc* popped = ProcList.Pop();
+        totalWait += popped->Waiting_Time(); 
+        count++;
+    }
+
+    return totalWait/count;
+}
+
 int main()
 {
-    LinkedList<Proc> ProcList = LinkedList<Proc>(); 
+    Queue<Proc> ProcList = Queue<Proc>(); 
     for(int i = 0; i < 10; i++)
     {
         Proc* test = new Proc();
@@ -67,15 +81,8 @@ int main()
 
         //test->Reset_Priority();
         //test->Waiting_Time();
-        
     }
 
-    for(int i = 0; ProcList.GetSize() > 0; i++)
-    {
-        Proc* p = ProcList.GetElement(0);
-        p->Delist(ProcList);
-        p->Time_In_System();
-        delete p;
-    }
+    std::cout << "Average waiting time: " << Scheduler(ProcList) << "ms\n";
     return EXIT_SUCCESS;
 }

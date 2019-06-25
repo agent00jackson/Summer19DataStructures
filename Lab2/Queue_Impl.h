@@ -40,6 +40,7 @@ templ void Queue<T>::Push(T* obj)
 
     int position = (front + currentSize) % GetCapacity();
     queueList->SetElement(obj, position);
+    currentSize++;
 }
 
 templ T* Queue<T>::Pop()

@@ -14,7 +14,7 @@ class Queue
         int GetCapacity();
         int GetCurrentSize();
     private:
-        DynList<T> queueList;
+        DynList<T>* queueList;
         int front;
         int currentSize;
 };

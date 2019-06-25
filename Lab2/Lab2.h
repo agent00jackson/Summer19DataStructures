@@ -14,8 +14,8 @@ class Proc
         int PriorityNumber;
         TimeVar ArrivalTime;
         TimeVar ServiceTime;
-        void Enlist(LinkedList<Proc>&);
-        void Delist(LinkedList<Proc>&);
+        void Enlist(Queue<Proc>&);
+        void Delist(Queue<Proc>&);
         void Reset_Priority();
         double Waiting_Time();
         double Time_In_System();
