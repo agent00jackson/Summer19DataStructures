@@ -49,11 +49,20 @@ double Proc::Time_In_System()
     return delta.count();
 }
 
+double Proc::Waiting_Time(Proc* proc)
+{
+    std::chrono::duration<double, std::milli> delta = std::chrono::system_clock::now() - (proc->ServiceTime);
+    return delta.count();
+}
+
 double Proc::Waiting_Time()
 {
-    std::chrono::duration<double, std::milli> delta = std::chrono::system_clock::now() - (this->ServiceTime);
-    std::cout << "Proc: " << this->ProcID << " has been waiting for " << delta.count() << " milliseconds" << std::endl;
-    return delta.count();
+    return Proc::Waiting_Time(this);
+}
+
+void Proc::PrintWaitingTime(Proc* proc)
+{
+    std::cout << "Proc: " << proc->ProcID << " has been waiting for " << proc->Waiting_Time() << " milliseconds" << std::endl;
 }
 
 double Scheduler(Queue<Proc>& ProcList)
@@ -78,9 +87,12 @@ int main()
         Proc* test = new Proc();
         test->Enlist(ProcList);
 
+        
         //test->Reset_Priority();
         //test->Waiting_Time();
     }
+
+    ProcList.Traverse(Proc::PrintWaitingTime);
 
     //std::cout << "Average waiting time: " << Scheduler(ProcList) << "ms\n";
     return EXIT_SUCCESS;

@@ -19,6 +19,8 @@ class Proc
         void Delist(Queue<Proc>&);
         void Reset_Priority();
         double Waiting_Time();
+        static double Waiting_Time(Proc*);
+        static void PrintWaitingTime(Proc*);
         double Time_In_System();
         Proc();
         ~Proc();
