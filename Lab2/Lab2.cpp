@@ -23,9 +23,9 @@ Proc::~Proc()
     std::cout << "Proc: " << this->ProcID << " deconstructed!" << std::endl;
 }
 
-void Proc::Enlist(Queue<Proc>& ProcList)
+void Proc::Enlist(Tree<Proc>& ProcList)
 {
-    ProcList.Push(this);
+    ProcList.Add(this);
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
 }
 
@@ -72,17 +72,16 @@ double Scheduler(Queue<Proc>& ProcList)
 
 int main()
 {
-    Queue<Proc> ProcList = Queue<Proc>(); 
+    Tree<Proc> ProcList = Tree<Proc>(); 
     for(int i = 0; i < 10; i++)
     {
         Proc* test = new Proc();
-
         test->Enlist(ProcList);
 
         //test->Reset_Priority();
         //test->Waiting_Time();
     }
 
-    std::cout << "Average waiting time: " << Scheduler(ProcList) << "ms\n";
+    //std::cout << "Average waiting time: " << Scheduler(ProcList) << "ms\n";
     return EXIT_SUCCESS;
 }

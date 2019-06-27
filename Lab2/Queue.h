@@ -11,6 +11,7 @@ class Queue
         ~Queue();
         void Push(T*);
         T* Pop();
+        T* Peek();
         int GetCapacity();
         int GetCurrentSize();
     private:

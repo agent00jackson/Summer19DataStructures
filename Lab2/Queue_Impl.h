@@ -51,4 +51,9 @@ templ T* Queue<T>::Pop()
     return objToReturn;
 }
 
+templ T* Queue<T>::Peek()
+{
+    return queueList->GetElement(front);
+}
+
 #endif
