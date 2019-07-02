@@ -1,58 +1,67 @@
 #ifndef PRIORITYQUEUE_IMPL
 #define PRIORITYQUEUE_IMPL
 
-#include "DynList.cpp"
+#include "DynList.h"
 #include "PriorityQueue.h"
+#include <iostream>
 
 #define templ template<typename T>
 
-templ PriorityQueue::PriorityQueue()
+templ PriorityQueue<T>::PriorityQueue()
 {
-    this->refArr = new DynList();
+    this->refArr = new DynList<T>();
 }
 
-templ PriorityQueue::~PriorityQueue()
+templ PriorityQueue<T>::~PriorityQueue()
 {
     delete this->refArr;
 }
 
-templ void PriorityQueue::Push(T* obj)
+templ void PriorityQueue<T>::Push(T* obj)
 {
     this->refArr->Push(obj);
-    this->BubbleUp(refArr->Length - 1);
+    this->BubbleUp(refArr->CurLength - 1);
 }
 
-templ T* PriorityQueue::Pop(void (*func)(T*)=NULL)
+templ T* PriorityQueue<T>::Pop(void (*func)(T*)=NULL)
 {
     T* popped = this->refArr->GetElement(0);
-    T* last = this->refArr->GetElement(refArr->Length - 1);
+    T* last = this->refArr->GetElement(refArr->CurLength - 1);
     this->refArr->SetElement(last, 0);
-    refArr->Length = refArr->Length - 1;
-    for(int i = 1; i < refArr->Length; i++)
+    refArr->CurLength = refArr->CurLength - 1;
+    for(int i = 1; i < refArr->CurLength; i++)
     {
         BubbleUp(i);
     }
+
+    if(func != NULL)
+    {
+        func(popped);
+    }
+
+    return popped;
 }
 
-templ int PriorityQueue::GetCurrentSize()
+templ int PriorityQueue<T>::GetCurrentSize()
 {
-    return refArr->Length;
+    return refArr->CurLength;
 }
 
-templ void PriorityQueue::BubbleUp(int pos)
+templ void PriorityQueue<T>::BubbleUp(int pos)
 {
     if(pos == 0)
     {
         return;
     }
-
+    
     T* focus = this->refArr->GetElement(pos);
+
     int parentPos = (pos - 1) / 2;
     T* parent = this->refArr->GetElement(parentPos);
     if(*focus > *parent)
     {
         this->refArr->SetElement(parent, pos);
-        this->refAtt->SetElement(focus, parentPos);
+        this->refArr->SetElement(focus, parentPos);
         this->BubbleUp(parentPos);
     }
 }

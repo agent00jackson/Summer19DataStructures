@@ -1,7 +1,7 @@
 #ifndef PRIORITYQUEUE
 #define PRIORITYQUEUE
 
-#include "DynList.cpp"
+#include "DynList.h"
 
 template<class T>
 class PriorityQueue

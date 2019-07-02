@@ -6,15 +6,18 @@ class DynList
 {
     private:
         T** dynArr;
-        int Length;
+        int MaxLength;
     public:
+        int CurLength;
         void Expand();
-        int GetLength();
+        int GetMaxLength();
         T* GetElement(int);
         void SetElement(T*, int);
         void Push(T*);
         DynList();
         ~DynList();
 };
+
+#include "DynList_Impl.h"
 
 #endif

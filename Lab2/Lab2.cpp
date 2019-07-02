@@ -7,8 +7,6 @@
 
 #pragma region PROC
 
-
-
 Proc::Proc()
 {
     std::random_device rd; 
@@ -27,7 +25,7 @@ Proc::~Proc()
     std::cout << "Proc: " << this->ProcID << " deconstructed!" << std::endl;
 }
 
-void Proc::Enlist(listType& ProcList)
+void Proc::Enlist(PriorityQueue<Proc>& ProcList)
 {
     ProcList.Push(this);
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
@@ -96,15 +94,17 @@ bool Proc::operator>=(const Proc& other)
 
 #pragma endregion PROC
 
-double Scheduler(listType& ProcList)
+double Scheduler(PriorityQueue<Proc>& ProcList)
 {
     double totalWait = 0;
     int count = 0;
     while(ProcList.GetCurrentSize() > 0)
     {
-        Proc* popped = ProcList.Pop();
-        totalWait += popped->Waiting_Time(); 
+        Proc* popped = ProcList.Pop(Proc::PrintWaitingTime);
+        std::cout << "Priority: " << popped->PriorityNumber << std::endl;
+        totalWait += popped->Waiting_Time();
         count++;
+        delete popped;
     }
 
     return totalWait/count;
@@ -112,12 +112,11 @@ double Scheduler(listType& ProcList)
 
 int main()
 {
-    listType ProcList = listType(); 
+    PriorityQueue<Proc> ProcList = PriorityQueue<Proc>(); 
     for(int i = 0; i < 10; i++)
     {
         Proc* test = new Proc();
         test->Enlist(ProcList);
-
         
         //test->Reset_Priority();
         //test->Waiting_Time();

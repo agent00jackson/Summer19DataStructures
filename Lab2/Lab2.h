@@ -5,6 +5,7 @@
 #include "LinkedList.h"
 #include "Queue.h"
 #include "Tree.h"
+#include "PriorityQueue.h"
 
 typedef std::chrono::high_resolution_clock::time_point TimeVar;
 
@@ -15,7 +16,7 @@ class Proc
         int PriorityNumber;
         TimeVar ArrivalTime;
         TimeVar ServiceTime;
-        void Enlist(Tree<Proc>&);
+        void Enlist(PriorityQueue<Proc>&);
         void Delist(Queue<Proc>&);
         void Reset_Priority();
         double Waiting_Time();

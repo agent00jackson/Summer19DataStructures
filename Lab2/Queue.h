@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "DynList.cpp"
+#include "DynList.h"
 
 template<class T>
 class Queue
