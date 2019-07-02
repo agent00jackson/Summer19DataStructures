@@ -24,6 +24,11 @@ class Proc
         double Time_In_System();
         Proc();
         ~Proc();
+        bool operator<(const Proc&);
+        bool operator<=(const Proc&);
+        bool operator>(const Proc&);
+        bool operator>=(const Proc&);
+        bool operator==(const Proc&);
     private:
         int QueueSize;
 };

@@ -5,6 +5,10 @@
 #include <chrono>
 #include <random>
 
+#pragma region PROC
+
+
+
 Proc::Proc()
 {
     std::random_device rd; 
@@ -23,9 +27,9 @@ Proc::~Proc()
     std::cout << "Proc: " << this->ProcID << " deconstructed!" << std::endl;
 }
 
-void Proc::Enlist(Tree<Proc>& ProcList)
+void Proc::Enlist(listType& ProcList)
 {
-    ProcList.Add(this);
+    ProcList.Push(this);
     std::cout << "Proc: " << this->ProcID << " enlisted." << std::endl;
 }
 
@@ -65,7 +69,34 @@ void Proc::PrintWaitingTime(Proc* proc)
     std::cout << "Proc: " << proc->ProcID << " has been waiting for " << proc->Waiting_Time() << " milliseconds" << std::endl;
 }
 
-double Scheduler(Queue<Proc>& ProcList)
+bool Proc::operator<(const Proc& other)
+{
+    return (this->PriorityNumber < other.PriorityNumber);
+}
+
+bool Proc::operator==(const Proc& other)
+{
+    return (this->PriorityNumber == other.PriorityNumber);
+}
+
+bool Proc::operator>(const Proc& other)
+{
+    return (this->PriorityNumber > other.PriorityNumber);
+}
+
+bool Proc::operator<=(const Proc& other)
+{
+    return (this->PriorityNumber < other.PriorityNumber) || (this->PriorityNumber == other.PriorityNumber);
+}
+
+bool Proc::operator>=(const Proc& other)
+{
+     return (this->PriorityNumber > other.PriorityNumber) || (this->PriorityNumber == other.PriorityNumber);
+}
+
+#pragma endregion PROC
+
+double Scheduler(listType& ProcList)
 {
     double totalWait = 0;
     int count = 0;
@@ -81,7 +112,7 @@ double Scheduler(Queue<Proc>& ProcList)
 
 int main()
 {
-    Tree<Proc> ProcList = Tree<Proc>(); 
+    listType ProcList = listType(); 
     for(int i = 0; i < 10; i++)
     {
         Proc* test = new Proc();
@@ -92,7 +123,7 @@ int main()
         //test->Waiting_Time();
     }
 
-    ProcList.Traverse(Proc::PrintWaitingTime);
+    Scheduler(ProcList);
 
     //std::cout << "Average waiting time: " << Scheduler(ProcList) << "ms\n";
     return EXIT_SUCCESS;

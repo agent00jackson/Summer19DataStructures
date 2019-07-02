@@ -1,3 +1,6 @@
+#ifndef DYNLIST
+#define DYNLIST
+
 template <class T>
 class DynList
 {
@@ -13,3 +16,5 @@ class DynList
         DynList();
         ~DynList();
 };
+
+#endif
