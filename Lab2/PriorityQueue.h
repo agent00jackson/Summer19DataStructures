@@ -15,6 +15,7 @@ class PriorityQueue
     private:
         DynList<T>* refArr;
         void BubbleUp(int pos);
+        void BubbleDown(int pos);
 };
 
 #include "PriorityQueue_Impl.h"

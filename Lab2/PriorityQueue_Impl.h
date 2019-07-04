@@ -29,10 +29,7 @@ templ T* PriorityQueue<T>::Pop(void (*func)(T*)=NULL)
     T* last = this->refArr->GetElement(refArr->CurLength - 1);
     this->refArr->SetElement(last, 0);
     refArr->CurLength = refArr->CurLength - 1;
-    for(int i = 1; i < refArr->CurLength; i++)
-    {
-        BubbleUp(i);
-    }
+    BubbleDown(0);
 
     if(func != NULL)
     {
@@ -45,6 +42,50 @@ templ T* PriorityQueue<T>::Pop(void (*func)(T*)=NULL)
 templ int PriorityQueue<T>::GetCurrentSize()
 {
     return refArr->CurLength;
+}
+
+templ void PriorityQueue<T>::BubbleDown(int pos)
+{
+    int curLen = refArr->CurLength;
+    
+    int lChildPos = (2*pos)+1;
+    int rChildPos = (2*pos)+2;
+
+    T* rChild = NULL;
+    T* lChild = NULL;
+
+    if(lChildPos < curLen)
+    {
+        lChild = this->refArr->GetElement(lChildPos);
+        if(rChildPos < curLen)
+        {
+            rChild = this->refArr->GetElement(rChildPos);
+        }
+    }
+    else
+    {
+        return;
+    }
+    
+
+    T* toMove = lChild;
+    int toMovePos = lChildPos;
+    if(rChild != NULL)
+    {
+        if(*rChild > *lChild)
+        {
+            toMove = rChild;
+            toMovePos = rChildPos;
+        }
+    }
+    
+    T* focus = this->refArr->GetElement(pos);
+    if(*focus < *toMove)
+    {
+        this->refArr->SetElement(toMove, pos);
+        this->refArr->SetElement(focus, toMovePos);
+        this->BubbleDown(toMovePos);
+    }
 }
 
 templ void PriorityQueue<T>::BubbleUp(int pos)
