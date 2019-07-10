@@ -17,7 +17,7 @@ templ Queue<T>::~Queue()
 
 templ int Queue<T>::GetCapacity()
 {
-    return queueList->GetLength();
+    return queueList->GetMaxLength();
 }
 
 templ int Queue<T>::GetCurrentSize()
@@ -43,11 +43,17 @@ templ void Queue<T>::Push(T* obj)
     currentSize++;
 }
 
-templ T* Queue<T>::Pop()
+templ T* Queue<T>::Pop(void (*func)(T*)=NULL)
 {
     T* objToReturn = queueList->GetElement(front);
     front = (front + 1) % GetCapacity();
     currentSize--;
+
+    if(func != NULL)
+    {
+        func(objToReturn);
+    }
+
     return objToReturn;
 }
 

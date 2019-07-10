@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
+#include <limits>
 
 #pragma region PROC
 
@@ -94,20 +95,30 @@ bool Proc::operator>=(const Proc& other)
 
 #pragma endregion PROC
 
-double Scheduler(PriorityQueue<Proc>& ProcList)
+double* Scheduler(Queue<Proc>& ProcList)
 {
+    double* stats = new double[3];
+    double minWait = std::numeric_limits<double>::max();
+    double maxWait = 0;
     double totalWait = 0;
     int count = 0;
     while(ProcList.GetCurrentSize() > 0)
     {
         Proc* popped = ProcList.Pop(Proc::PrintWaitingTime);
         std::cout << "Priority: " << popped->PriorityNumber << std::endl;
-        totalWait += popped->Waiting_Time();
+        double waitTime = popped->Waiting_Time();
+        totalWait += waitTime;
+        if(waitTime > maxWait) maxWait = waitTime;
+        if(waitTime < minWait) minWait = waitTime;
         count++;
         delete popped;
     }
 
-    return totalWait/count;
+    stats[0] = minWait;
+    stats[1] = maxWait;
+    stats[2] = totalWait/count;
+
+    return stats;
 }
 
 int main()
@@ -117,13 +128,18 @@ int main()
     {
         Proc* test = new Proc();
         test->Enlist(ProcList);
-        
-        //test->Reset_Priority();
-        //test->Waiting_Time();
     }
 
-    Scheduler(ProcList);
+    Queue<Proc> finalq = Queue<Proc>();
+    while(ProcList.GetCurrentSize() > 0)
+    {
+        finalq.Push(ProcList.Pop());
+    }
 
-    //std::cout << "Average waiting time: " << Scheduler(ProcList) << "ms\n";
+    double* stats = Scheduler(finalq);
+    std::cout << "Average waiting time: " << stats[2] << "ms\n";
+    std::cout << "Min waiting time: " << stats[0] << "ms\n";
+    std::cout << "Max waiting time: " << stats[1] << "ms\n";
+    
     return EXIT_SUCCESS;
 }

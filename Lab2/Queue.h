@@ -10,7 +10,7 @@ class Queue
         Queue();
         ~Queue();
         void Push(T*);
-        T* Pop();
+        T* Pop(void (*func)(T*));
         T* Peek();
         int GetCapacity();
         int GetCurrentSize();
